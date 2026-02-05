@@ -1,0 +1,33 @@
+# Dependencies
+vendor/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Composer
+composer.phar
+/composer.lock
+
+# Logs
+logs/
+*.log
+
+# Cache
+cache/
+tmp/
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Local development files
+*.local
