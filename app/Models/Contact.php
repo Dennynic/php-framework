@@ -11,7 +11,7 @@ class Contact extends Model{
     public array $rules = [
         'email' => ['email' => true, 'min' => 5, 'max' => 50],
         'content' => ['max' => 500],
-        'name' => ['required' => true, 'min' => 2, 'max' => 30],
+        'name' => ['required' => true, 'min' => 5, 'max' => 30],
         'user_name' => ['required' => true, 'min' => 5, 'max' => 20],
     ];
 

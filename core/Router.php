@@ -39,7 +39,6 @@ class Router
         }
         
         if (is_array($callback)) {
-        
             $controller = new $callback[0]();
             $action = $callback[1];
             return $controller->$action();

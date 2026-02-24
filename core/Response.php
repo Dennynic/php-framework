@@ -7,4 +7,16 @@ class Response
     {
         http_response_code($code);
     }
+
+    public function redirect(string $url = ''): never
+    {
+       if($url){
+            $redirect = $url;   
+       }else{
+            $redirect = $_SERVER['HTTP_REFERER'] ?? baseUrl();
+       }
+       header("Location: {$redirect}");
+       die;    
+    }
 }
+

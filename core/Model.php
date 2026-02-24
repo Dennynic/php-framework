@@ -29,32 +29,53 @@ abstract class Model{
         }
     }
 
-    public function validate()
+    public function isValid(): bool
     {
-        dump('Attr',$this->attributes);
-        dump('Rules', $this->rules);
-
-        foreach ($this->attributes as $fieldname => $value) {
-            if (isset($this->rules[$fieldname])) {
+        foreach ($this->attributes as $field_name => $value) {
+            if (isset($this->rules[$field_name])) {
                 $this->check([
-                    'fieldname' => $fieldname,
+                    'fieldname' => $field_name,
                     'value' => $value,
-                    'rules' => $this->rules[$fieldname],
+                    'rules' => $this->rules[$field_name],
                 ]);
             }
         }
+
+        return !$this->hasErrors();
+    }
+    
+
+    public function getErrors():array{
+        return $this->errors;
     }
 
     protected function check(array $field): void
     {
-        dump($field);
         foreach ($field['rules'] as $rule_name => $rule_value) {
             if(in_array($rule_name, $this->rules_list)){
                 if(!call_user_func_array([$this, $rule_name], [$field['value'], $rule_value])){
-                    var_dump('Error:', $field['fieldname'] .' - ' . $rule_name);
+                   $this->addError(
+                        $field['fieldname'],
+                        str_replace(
+                            [':fieldname:', ':rulevalue:'],
+                            [$field['fieldname'], $rule_value],
+                            $this->messages[$rule_name]  
+                        )
+                    );
                 }
             }
         }
+        
+    }
+
+    protected function addError($field_name, $error): void
+    {
+        $this->errors[$field_name][] = $error;
+       
+    }
+
+    protected function hasErrors(): bool{
+        return !empty($this->errors);
     }
 
     protected function required( string $value, string $rule_value): bool
